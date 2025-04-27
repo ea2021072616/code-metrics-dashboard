@@ -1,19 +1,18 @@
-name: Deploy Redirect Page to GitHub Pages
+name: Create and Deploy HTML
 
 on:
   push:
-    branches:
-      - main  # O la rama que uses como principal para tu proyecto
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Crear archivo HTML de redirección
+    - name: Create HTML file
       run: |
         echo '<!DOCTYPE html>
         <html>
@@ -33,30 +32,10 @@ jobs:
         </body>
         </html>' > index.html
 
-    - name: Configurar Git
+    - name: Commit and push changes
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-
-    - name: Configurar repositorio remoto y autenticación
-      run: |
-        # Configura la URL del repositorio remoto 'origin'
-        git remote set-url origin https://github.com/${{ github.repository }}.git
-
-        # Autenticación con el token personal usando git config
-        git config --global credential.helper store
-        echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-
-    - name: Desplegar a GitHub Pages
-      run: |
-        # Asegúrate de estar en la rama gh-pages (la crea si no existe)
-        git fetch origin
-        git checkout --orphan gh-pages  # Crea la rama gh-pages si no existe
-        git rm -rf .  # Elimina todo el contenido anterior de la rama
-
-        # Agrega el archivo index.html
         git add index.html
-        git commit -m "Deploy redirect page"
-
-        # Empuja los cambios a gh-pages
-        git push origin gh-pages --force
+        git commit -m "Auto-generated HTML file for redirection"
+        git push
