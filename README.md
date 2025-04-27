@@ -23,7 +23,9 @@ Streamlit is an open-source Python library that makes it easy to build and share
 ### 2. Create a virtual environment (recommended)
 
 -python -m venv venv
+
 -source venv/bin/activate # On Mac/Linux
+
 -venv\Scripts\activate # On Windows
 
 ### 3. Install Dependencies
