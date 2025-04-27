@@ -43,7 +43,7 @@ jobs:
         # Configura la URL del repositorio remoto 'origin'
         git remote set-url origin https://github.com/${{ github.repository }}.git
         
-        # Autenticación con el token personal
+        # Autenticación con el token personal usando git config
         git config --global credential.helper store
         echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
 
