@@ -40,7 +40,10 @@ jobs:
 
     - name: Desplegar a GitHub Pages
       run: |
-        git remote add origin https://github.com/${{ github.repository }}.git
+        # Configura la URL del repositorio remoto 'origin'
+        git remote set-url origin https://github.com/${{ github.repository }}.git
+        
+        # Asegúrate de estar en la rama gh-pages
         git fetch origin
         git checkout --orphan gh-pages  # Crea la rama gh-pages si no existe
         git rm -rf .
