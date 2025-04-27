@@ -17,6 +17,7 @@ Streamlit is an open-source Python library that makes it easy to build and share
 ### 1. Clone the repository
 
 -git clone https://github.com/your_username/covid-dashboard.git
+
 -cd covid-dashboard
 
 ### 2. Create a virtual environment (recommended)
