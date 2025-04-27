@@ -43,6 +43,10 @@ jobs:
         # Configura la URL del repositorio remoto 'origin'
         git remote set-url origin https://github.com/${{ github.repository }}.git
         
+        # Autenticación con el token personal
+        git config --global credential.helper store
+        echo "https://x-access-token:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
+
         # Asegúrate de estar en la rama gh-pages
         git fetch origin
         git checkout --orphan gh-pages  # Crea la rama gh-pages si no existe
