@@ -1,0 +1,49 @@
+name: Deploy Redirect Page to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # O la rama que uses como principal para tu proyecto
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Crear archivo HTML de redirección
+      run: |
+        echo '<!DOCTYPE html>
+        <html>
+        <head>
+          <title>Redirigiendo al Dashboard de Streamlit</title>
+          <meta http-equiv="refresh" content="0; url=https://code-metrics-dashboard-tjgbtcxq7jwu3mwlkqz65f.streamlit.app/" />
+          <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+            .spinner { margin: 40px auto; width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite; }
+            @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+          </style>
+        </head>
+        <body>
+          <h1>Redirigiendo al Dashboard...</h1>
+          <div class="spinner"></div>
+          <p>Si no eres redirigido automáticamente, <a href="https://code-metrics-dashboard-tjgbtcxq7jwu3mwlkqz65f.streamlit.app/">haz clic aquí</a>.</p>
+        </body>
+        </html>' > index.html
+
+    - name: Configurar Git
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+
+    - name: Desplegar a GitHub Pages
+      run: |
+        git remote add origin https://github.com/${{ github.repository }}.git
+        git fetch origin
+        git checkout --orphan gh-pages  # Crea la rama gh-pages si no existe
+        git rm -rf .
+        git add index.html
+        git commit -m "Deploy redirect page"
+        git push origin gh-pages --force
